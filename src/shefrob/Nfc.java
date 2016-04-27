@@ -1,14 +1,20 @@
-import ShefRobot.Speaker;
+package shefrob;
 
-public class Nfc {
-	private static float r; // reference
-	private static float kp = 200;// proportionality constant be controllable by user
-	private static float e;// error signal
-	public static float controller(float i, Speaker emmotion){
+import ShefRobot.*;
+
+public class Nfc extends Thread{
+	private float r; // reference
+	private float kp = 200;// proportionality constant be controllable by user
+	private float e;// error signal
+	private RobotTool robotTool;
+	public Nfc(RobotTool robotTool){
+		this.robotTool = robotTool;
+	}
+	public float controller(float i) {
 		r = (float) 0.35;
-		float speed = kp*(r-i);
-		emmotion.setVolume((int) (50*(r-i+1)));
-		emmotion.playTone((int) (200*(r-i+1)), 100);
+		e = r - i;
+		float speed = kp * e;
+		robotTool.playSound((int) (200 * (r - i + 1)), 200);
 		return speed;
 	}
 }

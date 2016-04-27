@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="shefrob">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/bin/shefrob" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/bin/shefrob" recursive="false" />
+  </library>
+</component>
