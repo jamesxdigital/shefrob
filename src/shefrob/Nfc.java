@@ -12,11 +12,10 @@ public class Nfc extends Thread{
 	public float ultraController(float i) {
 		//distance from 0 to infinity
 		//light from 0 to 1 (dark to light)
-		this.i = i;
-		r = 2*i;
-		e = r - this.i;
+		i = 1.0f / (i + 1.0f);
+		r = 2 * i;
+		e = r - i;
 		float speed = kp * e;
-		System.out.println((int) speed);
 		//robotTool.playSound((int) (200 * (r - this.i + 1)), 200, 2);
 		return speed;
 	}
@@ -24,7 +23,6 @@ public class Nfc extends Thread{
 		this.i = i;
 		e = r - this.i;
 		float speed = kp * e;
-		System.out.println((int) speed);
 		//robotTool.playSo
 		return speed;
 	}

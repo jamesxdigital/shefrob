@@ -17,7 +17,8 @@ public class Start {
 		case a1:
 			robotTool.setupColorSensor();
 			while(!Thread.currentThread().isInterrupted()){
-				robotTool.moveTogether((int) both.lightController(robotTool.getLightValue(), (float) 0.5));
+				robotTool.playSound((int) (robotTool.getLightValue()*1500 + 1), 100, (int) (robotTool.getLightValue() * 50 + 10));
+				robotTool.moveTogether((int) both.lightController(robotTool.getLightValue(), 0.5f));
 			}
 			break;
 		case a2:
@@ -27,6 +28,9 @@ public class Start {
 				public void run() {
 					while(!Thread.currentThread().isInterrupted()){
 						robotTool.leftMove((int) leftController.ultraController(robotTool.getDistances()[0]));
+						robotTool.playSound(
+								1+((int) ((leftController.ultraController(robotTool.getDistances()[0])+rightController.ultraController(robotTool.getDistances()[1]))*25.0f)) 
+								, 100, 30);
 					}
 				}
 			}.start();
@@ -65,16 +69,10 @@ public class Start {
 		case b3:
 			robotTool.leftMove(100);
 			break;
-		case c3:
-			robotTool.setupUltrasonic();
-			while(!Thread.currentThread().isInterrupted())
-				System.out.println(leftController.ultraController(robotTool.getDistances()[0]));
-			break;
 		case test:
 			int freq = 1;
 			while(freq < 20000){
-			robotTool.playSound(freq, 100, 2);
-			System.out.println(freq);
+			robotTool.playSound(freq, 100, 15);
 			robotTool.sleep(100);
 			freq += 20;
 			}
