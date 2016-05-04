@@ -28,9 +28,13 @@ public class Start {
 				public void run() {
 					while(!Thread.currentThread().isInterrupted()){
 						robotTool.leftMove((int) leftController.ultraController(robotTool.getDistances()[0]));
-						robotTool.playSound(
-								1+((int) ((leftController.ultraController(robotTool.getDistances()[0])+rightController.ultraController(robotTool.getDistances()[1]))*25.0f)) 
-								, 100, 30);
+						if(robotTool.getDistances()[1] <= 0.2f){
+							robotTool.playSound(1000, 100, 30);
+						}
+						if(robotTool.touched()){
+							robotTool.stopMoving();
+							break;
+						}
 					}
 				}
 			}.start();
@@ -39,12 +43,67 @@ public class Start {
 				public void run() {
 					while(!Thread.currentThread().isInterrupted()){
 						robotTool.rightMove((int) rightController.ultraController(robotTool.getDistances()[1]));
+						if(robotTool.getDistances()[1] <= 0.2f){
+							robotTool.playSound(1000, 100, 30);
+						}
+						if(robotTool.touched()){
+							robotTool.stopMoving();
+							break;
+						}
 					}
 				}
 			}.start();
 			Thread.sleep(500000);
 			break;
 		case b2:
+			robotTool.setupUltrasonic();
+			new Thread(){
+				@Override
+				public void run() {
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.leftMove((int) leftController.ultraController(robotTool.getDistances()[1]));
+						if(robotTool.getDistances()[1] <= 0.2f){
+							robotTool.playSound(1000, 100, 30);
+						}
+					}
+				}
+			}.start();
+			new Thread(){
+				@Override
+				public void run() {
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.rightMove((int) rightController.ultraController(robotTool.getDistances()[0]));
+						if(robotTool.getDistances()[0] <= 0.2f){
+							System.out.println("Distance = " + robotTool.getDistances()[0]);
+							robotTool.playSound(1000, 100, 30);
+						}
+					}
+				}
+			}.start();
+			Thread.sleep(500000);
+			break;
+		case a3:
+			robotTool.setupUltrasonic();
+			new Thread(){
+				@Override
+				public void run() {
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.leftMove((int) leftController.ultraController(robotTool.getDistances()[1]));
+						
+					}
+				}
+			}.start();
+			new Thread(){
+				@Override
+				public void run() {
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.rightMove((int) rightController.ultraController(robotTool.getDistances()[0]));
+					}
+				}
+			}.start();
+			Thread.sleep(500000);
+			break;
+		case b3:
 			robotTool.setupUltrasonic();
 			new Thread(){
 				@Override
@@ -64,18 +123,24 @@ public class Start {
 			}.start();
 			Thread.sleep(500000);
 			break;
-		case a3:
-			break;
-		case b3:
-			robotTool.leftMove(100);
-			break;
-		case test:
-			int freq = 1;
-			while(freq < 20000){
-			robotTool.playSound(freq, 100, 15);
-			robotTool.sleep(100);
-			freq += 20;
-			}
+		case c3:
+			//left
+			robotTool.setupC3();
+			new Thread(){
+				public void run(){
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.rightMove((int) rightController.lightController(robotTool.getLightValue(), 2*robotTool.getLightValue()));
+					}
+				}
+			}.start();
+			new Thread(){
+				public void run(){
+					while(!Thread.currentThread().isInterrupted()){
+						robotTool.leftMove((int) leftController.ultraController(robotTool.getRightDistance()));
+					}
+				}
+			}.start();
+			Thread.sleep(500000);
 			break;
 		default:
 			break;

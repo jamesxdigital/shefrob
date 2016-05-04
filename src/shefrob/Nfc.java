@@ -2,7 +2,7 @@ import ShefRobot.*;
 
 public class Nfc extends Thread{
 	private float r; // reference
-	private float kp = 400;// proportionality constant be controllable by user
+	private float kp = 200;// proportionality constant be controllable by user
 	private float e;// error signal
 	private float i;// intention
 	private RobotTool robotTool;
@@ -12,9 +12,9 @@ public class Nfc extends Thread{
 	public float ultraController(float i) {
 		//distance from 0 to infinity
 		//light from 0 to 1 (dark to light)
-		i = 1.0f / (i + 1.0f);
-		r = 2 * i;
-		e = r - i;
+		this.i = i;
+		r = 0;
+		e = r - this.i + 2.5f;
 		float speed = kp * e;
 		//robotTool.playSound((int) (200 * (r - this.i + 1)), 200, 2);
 		return speed;
